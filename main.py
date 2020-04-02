@@ -5,26 +5,22 @@ import matplotlib.pyplot as plt
 from Fonctions.Addition import *
 from Fonctions.Soustration import *
 from Fonctions.Multiplication import *
+from Fonctions.Cos import *
+from Fonctions.Sin import *
+from Fonctions.Sqrt import *
 from Terminaux.Constante import *
 from Terminaux.Variable import *
 from Fourmis import *
 from exploration import *
-
+from networkx.readwrite import json_graph
 
 # 2x² + 4x - 9
 #Initialisation des parametres de l'algorithme
-nbFourmis =  2
+nbFourmis =  1
 nbGeneration = 1
-fonctionSet = [Addition(), Multiplication(), Soustration()]
-terminalSet = [Variable("x"),Constante(9),Constante(0),Constante(4),]
+fonctionSet = [Addition(), Multiplication(), Cos()]
+terminalSet = [Variable("x"),Constante(2),Constante(4),]
 alpha = 0.1
-
-#Définition des fonctions necessaires à l'algorithm
-def evaporation(pheromone):
-    return (1 - alpha) * pheromone
-
-def increase(pheromone, fitness):
-    return pheromone + (alpha / fitness)
 
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================
@@ -37,8 +33,8 @@ grapheEdges = []
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 5
-nbFonction = 4
+nbTerminal = 10
+nbFonction = 10
 
 
 labeldict = {}
@@ -74,10 +70,8 @@ for currentNodeId in range(len(grapheNodes)):
 graphe.add_edges_from(grapheEdges)
 nx.draw(graphe, labels=labeldict, with_labels = True)
 plt.savefig("graphe.png") # save as png
-plt.show() # display'''
 #plt.show() # display'''
 plt.clf()
-
 
 #=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
 #Démarrage de l'algorithme
@@ -95,6 +89,7 @@ for generation in range(0, nbGeneration):
         #Initialiser l'arbre du programme
         labeldict = {}
         arbre = nx.Graph()
+        #arbre = nx.DiGraph()
         #Initialiser le tableau des noeuds et des arretes
         arbreNodes = []
         arbreEdges = []
@@ -110,7 +105,8 @@ for generation in range(0, nbGeneration):
         idNoeudArbre =  idNoeudArbre + 1
         #==================== EXPLORATION ====================#
         arbre , idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe)
-        
+        expressionLitterale = parcourir(arbre)
+
         nx.draw(arbre, labels=labeldict, with_labels = True)
         plt.savefig("arbre.png") # save as png
         plt.show() # display'''

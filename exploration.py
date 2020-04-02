@@ -4,6 +4,13 @@ from Fourmis import *
 import pdb
 
 
+#Définition des fonctions necessaires à l'algorithm
+def evaporation(pheromone):
+    return (1 - alpha) * pheromone
+
+def increase(pheromone, fitness):
+    return pheromone + (alpha / fitness)
+
 def isFunction(noeud):
     return hasattr(noeud, 'nbParams')
 
@@ -32,7 +39,7 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
             arbre.add_node(idNoeudArbre, value=suivant)
             labeldict[idNoeudArbre] = suivant.valeur
             #Liée le nouveau noeud au noeud Pere de l'arbre
-            arbre.add_edge(idNoeudArbre, fourmi.noeudArbre)
+            arbre.add_edge(fourmi.noeudArbre, idNoeudArbre)
             #On bascule la fourmi au noeud Suivant
             maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
             '''clone.noeudPrecedent = 
@@ -45,3 +52,6 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
     #Si non si le noeud Courant n'est pas une fonction alors  =>
     #Ne rien faire
     return arbre ,  idNoeudArbre
+
+def parcourir(arbre):
+    pass
