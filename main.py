@@ -18,6 +18,7 @@ from networkx.readwrite import json_graph
 #Initialisation des parametres de l'algorithme
 nbFourmis =  1
 nbGeneration = 1
+#fonctionSet = [Addition(), Multiplication(), Cos()]
 fonctionSet = [Addition(), Multiplication(), Cos()]
 terminalSet = [Variable("x"),Constante(2),Constante(4),]
 alpha = 0.1
@@ -34,7 +35,7 @@ idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
 nbTerminal = 10
-nbFonction = 10
+nbFonction = 5
 
 
 labeldict = {}
@@ -105,11 +106,15 @@ for generation in range(0, nbGeneration):
         idNoeudArbre =  idNoeudArbre + 1
         #==================== EXPLORATION ====================#
         arbre , idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe)
-        expressionLitterale = parcourir(arbre)
-
         nx.draw(arbre, labels=labeldict, with_labels = True)
+        
+        expressionLitterale = parcourir(0, arbre)
+        
+        print(expressionLitterale)
+
         plt.savefig("arbre.png") # save as png
         plt.show() # display'''
+        
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================

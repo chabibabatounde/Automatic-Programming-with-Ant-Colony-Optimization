@@ -2,7 +2,7 @@
 import random
 from Fourmis import *
 import pdb
-
+import sys
 
 #Définition des fonctions necessaires à l'algorithm
 def evaporation(pheromone):
@@ -18,7 +18,6 @@ def choisirNoeud(idNoeudCourant, graphe):
     voisins = list(graphe.neighbors(idNoeudCourant))
     position  =  random.randint(0, len(voisins)-1)
     idSuivant = voisins[position]
-    noeudCourant =  graphe.nodes[idSuivant]['value']
     return idSuivant
 
 def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
@@ -53,5 +52,33 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
     #Ne rien faire
     return arbre ,  idNoeudArbre
 
-def parcourir(arbre):
-    pass
+def parcourir(idNoeud, arbre, ancetre=None):
+    #sys.setrecursionlimit(10)
+    #Récupérer le noeud racine
+    racine = arbre.nodes[idNoeud]['value']
+    #Initialiser "Expression" à ""
+    localExpression = ""
+    #Initialiser le tableau des paramêtres à vide
+    parametres = []
+    #Si c'est une fonction
+    if(isFunction(racine)):
+        #Récupérer les fils
+        listDesFils =  list(arbre.neighbors(idNoeud))
+        #Pour chaque fils :
+        for i in listDesFils:
+            #récupérer la valeur
+            fils = arbre.nodes[i]['value']
+            #Si le noeud est une fonction :
+            if isFunction(fils):
+                #On vérifie si on ne va pas en arriere
+                if(i != ancetre):
+                    sortie = parcourir(i, arbre, idNoeud)
+                    #Ajouter l'expression dans le tableau des paramêtres
+                    parametres.append(sortie)
+            #Si le noeud est un terminal
+            else :
+                #Ajouter la valeur"dans le tableau des paramêtres
+                parametres.append(fils.valeur)
+    localExpression = racine.expression(parametres)
+    #Générer l'expression à partir du tableau des paramêtres
+    return localExpression
