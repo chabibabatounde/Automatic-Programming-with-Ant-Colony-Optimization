@@ -12,15 +12,14 @@ from Terminaux.Constante import *
 from Terminaux.Variable import *
 from Fourmis import *
 from exploration import *
-from networkx.readwrite import json_graph
 
 # 2x² + 4x - 9
 #Initialisation des parametres de l'algorithme
 nbFourmis =  1
 nbGeneration = 1
 #fonctionSet = [Addition(), Multiplication(), Cos()]
-fonctionSet = [Addition(), Multiplication(), Cos()]
-terminalSet = [Variable("x"),Constante(2),Constante(4),]
+fonctionSet = [Addition(), Multiplication(), Cos(), Sin()]
+terminalSet = [Variable('t'),Constante(0),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante(6),Constante(7),Constante(8),Constante(9)]
 alpha = 0.1
 
 #============================================================================================================================================================================================
@@ -34,7 +33,7 @@ grapheEdges = []
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 10
+nbTerminal = 2
 nbFonction = 5
 
 
@@ -53,6 +52,7 @@ for i in range(0, nbTerminal):
     grapheNodes.append(nodeToAdd)
     labeldict[idNode] = nodeToAdd.valeur
     idNode = idNode +1
+
 
 #Génération des arretes
 for currentNodeId in range(len(grapheNodes)):
@@ -113,7 +113,7 @@ for generation in range(0, nbGeneration):
         print(expressionLitterale)
 
         plt.savefig("arbre.png") # save as png
-        plt.show() # display'''
+        #plt.show() # display'''
         
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================
