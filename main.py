@@ -3,15 +3,14 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 from Fonctions.Addition import *
-from Fonctions.Soustration import *
 from Fonctions.Multiplication import *
 from Fonctions.Cos import *
 from Fonctions.Sin import *
-from Fonctions.Sqrt import *
 from Terminaux.Constante import *
 from Terminaux.Variable import *
 from Fourmis import *
 from exploration import *
+from math import *
 
 # 2x² + 4x - 9
 #Initialisation des parametres de l'algorithme
@@ -20,6 +19,8 @@ nbGeneration = 1
 #fonctionSet = [Addition(), Multiplication(), Cos()]
 fonctionSet = [Addition(), Multiplication(), Cos(), Sin()]
 terminalSet = [Variable('t'),Constante(0),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante(6),Constante(7),Constante(8),Constante(9)]
+
+#coeff de mise à jour des phéromones
 alpha = 0.1
 
 #============================================================================================================================================================================================
@@ -34,7 +35,7 @@ idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
 nbTerminal = 2
-nbFonction = 5
+nbFonction = 2
 
 
 labeldict = {}
@@ -69,6 +70,8 @@ for currentNodeId in range(len(grapheNodes)):
         grapheEdges.append(edge)
 
 graphe.add_edges_from(grapheEdges)
+
+
 nx.draw(graphe, labels=labeldict, with_labels = True)
 plt.savefig("graphe.png") # save as png
 #plt.show() # display'''
@@ -86,6 +89,7 @@ for generation in range(0, nbGeneration):
     while not (isFunction(noeudCourant)):
         idNoeudCourant = random.randint(0, len(grapheNodes)-1)
         noeudCourant = grapheNodes[idNoeudCourant]
+    noeudDemarrage = idNoeudCourant
     for f in range(0, nbFourmis):
         #Initialiser l'arbre du programme
         labeldict = {}
@@ -104,16 +108,23 @@ for generation in range(0, nbGeneration):
         fourmi = Fourmis(idNoeudCourant, idNoeudCourant,  idNoeudArbre)
         #On incrémente l'identifiant des noeuds
         idNoeudArbre =  idNoeudArbre + 1
+        #Initialisation du tableau des chemins parcourus
+        lesChemins = []
         #==================== EXPLORATION ====================#
-        arbre , idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe)
-        nx.draw(arbre, labels=labeldict, with_labels = True)
-        
-        expressionLitterale = parcourir(0, arbre)
-        
-        print(expressionLitterale)
+        lesChemins = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
 
-        plt.savefig("arbre.png") # save as png
-        #plt.show() # display'''
+        '''expressionLitterale = parcourir(0, arbre)
+        #Mise à jour des phéromones
+            #Incrémentation
+        for chemin in lesChemins:
+            graphe[chemin[0]][chemin[1]]['pheromone'] = alpha + graphe[chemin[0]][chemin[1]]['pheromone']
+            #evaporation'''
+
+    '''fourmiGeneratrice = Fourmis(noeudDemarrage, noeudDemarrage,  0)
+    arbre, lesChemins, idNoeudArbre = exploration(fourmiGeneratrice, 1, arbre, labeldict, graphe, lesChemins)
+    nx.draw(arbre, labels=labeldict, with_labels = True)
+    plt.savefig("arbre.png") # save as png
+    #plt.show() # display'''
         
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================

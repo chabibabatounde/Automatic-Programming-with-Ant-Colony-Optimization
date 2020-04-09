@@ -1,7 +1,6 @@
 # coding: utf-8
 import random
 from Fourmis import *
-import pdb
 import sys
 
 #Définition des fonctions necessaires à l'algorithm
@@ -20,7 +19,8 @@ def choisirNoeud(idNoeudCourant, graphe):
     idSuivant = voisins[position]
     return idSuivant
 
-def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
+
+def explorationOK(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
     if isFunction((graphe.nodes[fourmi.noeudCourant]['value'])):
         #Si le noeud Courant de la fourmis n'est pas une fonction alors  =>
         idNoeudCourant =  fourmi.noeudCourant
@@ -33,7 +33,7 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
             while idSuivant == fourmi.noeudPrecedent:
                 idSuivant = choisirNoeud(idNoeudCourant, graphe)
             suivant  =   graphe.nodes[idSuivant]['value']
-
+            lesChemins.append((idNoeudCourant, idSuivant))
             #Ajouter le noeud suivant à l'arbre
             arbre.add_node(idNoeudArbre, value=suivant)
             labeldict[idNoeudArbre] = suivant.valeur
@@ -41,16 +41,56 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe):
             arbre.add_edge(fourmi.noeudArbre, idNoeudArbre)
             #On bascule la fourmi au noeud Suivant
             maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
+
+
+
+
+            
             '''clone.noeudPrecedent = 
             clone.noeudCourant = idSuivant#arbre
             clone.noeudArbre = idNoeudArbre'''
             #On incrémente l'identifiant des noeuds
             idNoeudArbre =  idNoeudArbre + 1
-            arbre, idNoeudArbre= exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe)
+            arbre, lesChemins,  idNoeudArbre = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins)
 
-    #Si non si le noeud Courant n'est pas une fonction alors  =>
     #Ne rien faire
-    return arbre ,  idNoeudArbre
+    return arbre , lesChemins,  idNoeudArbre
+
+def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
+    if isFunction((graphe.nodes[fourmi.noeudCourant]['value'])):
+        #Si le noeud Courant de la fourmis n'est pas une fonction alors  =>
+        idNoeudCourant =  fourmi.noeudCourant
+        noeudCourant =  graphe.nodes[fourmi.noeudCourant]['value']
+        #Récupérer le nombre de parametre
+        nbParams =  noeudCourant.nbParams
+        for j in range(0, nbParams):
+            #Récupérer le noeud suivant(voisin) tant que ce n'est pas le noeud précédent
+            idSuivant = choisirNoeud(idNoeudCourant, graphe)
+            while idSuivant == fourmi.noeudPrecedent:
+                idSuivant = choisirNoeud(idNoeudCourant, graphe)
+            suivant  =   graphe.nodes[idSuivant]['value']
+            lesChemins.append((idNoeudCourant, idSuivant))
+            #Ajouter le noeud suivant à l'arbre
+            arbre.add_node(idNoeudArbre, value=suivant)
+            labeldict[idNoeudArbre] = suivant.valeur
+            #Liée le nouveau noeud au noeud Pere de l'arbre
+            arbre.add_edge(fourmi.noeudArbre, idNoeudArbre)
+            #On bascule la fourmi au noeud Suivant
+            maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
+
+
+
+
+
+            '''clone.noeudPrecedent = 
+            clone.noeudCourant = idSuivant#arbre
+            clone.noeudArbre = idNoeudArbre'''
+            #On incrémente l'identifiant des noeuds
+            idNoeudArbre =  idNoeudArbre + 1
+            arbre, lesChemins,  idNoeudArbre = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins)
+
+    #Ne rien faire
+    return arbre , lesChemins,  idNoeudArbre
 
 def parcourir(idNoeud, arbre, ancetre=None):
     #sys.setrecursionlimit(10)
