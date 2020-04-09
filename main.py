@@ -98,7 +98,7 @@ for generation in range(0, nbGeneration):
         #Initialiser le tableau des noeuds et des arretes
         arbreNodes = []
         arbreEdges = []
-        ''' SI PREMIERE FOURMI DE LA PREMIERE GENERATION '''
+        '''SI PREMIERE FOURMI DE LA PREMIERE GENERATION'''
         #Initialisation de l'identifiant des noeuds
         idNoeudArbre = 0
         #Ajout du de départ dans la liste des noeuds
@@ -111,20 +111,23 @@ for generation in range(0, nbGeneration):
         #Initialisation du tableau des chemins parcourus
         lesChemins = []
         #==================== EXPLORATION ====================#
-        lesChemins = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
+        arbre , lesChemins,  idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
 
-        '''expressionLitterale = parcourir(0, arbre)
+        expressionLitterale = parcourir(0, arbre)
+        print(expressionLitterale)
+        print(lesChemins)
+        
         #Mise à jour des phéromones
             #Incrémentation
         for chemin in lesChemins:
             graphe[chemin[0]][chemin[1]]['pheromone'] = alpha + graphe[chemin[0]][chemin[1]]['pheromone']
-            #evaporation'''
+            #evaporation
 
     '''fourmiGeneratrice = Fourmis(noeudDemarrage, noeudDemarrage,  0)
     arbre, lesChemins, idNoeudArbre = exploration(fourmiGeneratrice, 1, arbre, labeldict, graphe, lesChemins)
     nx.draw(arbre, labels=labeldict, with_labels = True)
-    plt.savefig("arbre.png") # save as png
-    #plt.show() # display'''
+    plt.savefig("arbre.png") # save as png'''
+    #plt.show() # display
         
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================
