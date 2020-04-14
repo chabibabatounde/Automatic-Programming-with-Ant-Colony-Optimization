@@ -71,6 +71,7 @@ def construire(graphe, grapheNodes, noeudDemarrage):
     arbre , lesChemins,  idNoeudArbre = explorationConstrction(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
     expressionLitterale = parcourir(0, arbre)
     return expressionLitterale
+    #return "(2+2)"
 
 def explorationConstrction(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
     if isFunction((graphe.nodes[fourmi.noeudCourant]['value'])):
@@ -91,9 +92,6 @@ def explorationConstrction(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesCh
             arbre.add_edge(fourmi.noeudArbre, idNoeudArbre)
             #On bascule la fourmi au noeud Suivant
             maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
-            '''clone.noeudPrecedent = 
-            clone.noeudCourant = idSuivant#arbre
-            clone.noeudArbre = idNoeudArbre'''
             #On incrémente l'identifiant des noeuds
             idNoeudArbre =  idNoeudArbre + 1
             arbre, lesChemins,  idNoeudArbre = explorationConstrction(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins)

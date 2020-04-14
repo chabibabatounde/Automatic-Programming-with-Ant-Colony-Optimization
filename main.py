@@ -12,9 +12,10 @@ from exploration import *
 from math import *
 import json
 import sys
-#sys.setrecursionlimit(5000000)
+#sys.setrecursionlimit(5)
 
-#Chargement de la dataSet
+
+#Charger les données sources
 with open("Dataset/eq1.json", 'r') as f:
     dataSet = json.load(f)
 
@@ -25,53 +26,76 @@ nbGeneration = 1
 evaporation = 0.01
 fonctionSet = [Addition(), Multiplication(), Soustration()]
 terminalSet = [Variable('x'),Constante(2),Constante(4)]
+
+#On créé le graph
 graphe = nx.Graph()
 grapheNodes = []
 grapheEdges = []
 labeldict = {}
 idNode = 0
 
-#On génére le graphe
-for fonction in fonctionSet:
-    graphe.add_node(idNode, value=fonction)
-    grapheNodes.append(fonction)
-    labeldict[idNode] = fonction.valeur
+#on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
+nbTerminal = 9
+nbFonction = 6
+
+
+
+#On génére le graphe de maniere unique
+for i in range(0, nbFonction):
+    nodeToAdd = fonctionSet[random.randint(0, len(fonctionSet) - 1)]
+    graphe.add_node(idNode, value=nodeToAdd)
+    grapheNodes.append(nodeToAdd)
+    labeldict[idNode] = nodeToAdd.valeur
     idNode = idNode +1
-for terminal in terminalSet:
-    graphe.add_node(idNode, value=terminal)
-    grapheNodes.append(terminal)
-    labeldict[idNode] = terminal.valeur
+for i in range(0, nbTerminal):
+    nodeToAdd = terminalSet[random.randint(0, len(terminalSet) - 1)]
+    graphe.add_node(idNode, value=nodeToAdd)
+    grapheNodes.append(nodeToAdd)
+    labeldict[idNode] = nodeToAdd.valeur
     idNode = idNode +1
-for i in range(len(grapheNodes)):
-    for j in range(len(grapheNodes)):
-        if(i != j ):
-            edge = (i, j, {'pheromone' : 0.5})
-            grapheEdges.append(edge)
+
+
+#Génération des arretes
+for currentNodeId in range(len(grapheNodes)):
+    currentNode = grapheNodes[currentNodeId]
+    voisins =  list(graphe.neighbors(currentNodeId))
+    #Pour chaque Noeud, on génère au moins 2 différents arretes et au plus nombreDeNoeud arretes
+    nbArrete = random.randint(3, len(grapheNodes))
+    for j in range(0, nbArrete):
+        #On génère un voisin différent du noeud courant
+        voisinId =  random.randint(0, len(grapheNodes)-1)
+        while voisinId == currentNodeId :
+            voisinId =  random.randint(0, len(grapheNodes)-1)
+        edge = (currentNodeId, voisinId, {'pheromone' : 0.5})
+        grapheEdges.append(edge)
+
 graphe.add_edges_from(grapheEdges)
 nx.draw(graphe, labels=labeldict, with_labels = True)
-plt.savefig("graphe.png") # save as png
-#plt.show() # display'''
+plt.savefig("graphe.png")
 plt.clf()
 
 
-
-#============================================================================================================================================================================================
-#============================================================================================================================================================================================
+#=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
+#Démarrage de l'algorithme
 #Pour chaque génération
 for generation in range(0, nbGeneration):
     print("Génération "+str(generation+1))
+    
+    #Pour chaque fourmi alors
     #Déterminer un point de démarrage
-    noeudDemarrage = random.randint(0, len(grapheNodes)-1)
-    noeudCourant = grapheNodes[noeudDemarrage]
+    idNoeudCourant = random.randint(0, len(grapheNodes)-1)
+    noeudCourant = grapheNodes[idNoeudCourant]
     while not (isFunction(noeudCourant)):
-        noeudDemarrage = random.randint(0, len(grapheNodes)-1)
-        noeudCourant = grapheNodes[noeudDemarrage]
+        idNoeudCourant = random.randint(0, len(grapheNodes)-1)
+        noeudCourant = grapheNodes[idNoeudCourant]
+    noeudDemarrage = idNoeudCourant
     
     for f in range(0, nbFourmis):
-        #Pour chaque fourmi alors
         #Initialiser l'arbre du programme
         labeldict = {}
         arbre = nx.Graph()
+        
+        #arbre = nx.DiGraph()
         #Initialiser le tableau des noeuds et des arretes
         arbreNodes = []
         arbreEdges = []
@@ -81,13 +105,15 @@ for generation in range(0, nbGeneration):
         arbre.add_node(idNoeudArbre, value=noeudCourant)
         labeldict[idNoeudArbre] = noeudCourant.valeur
         #Création d'une fourmi avec les données
-        fourmi = Fourmis(noeudDemarrage, noeudDemarrage,  idNoeudArbre)
+        fourmi = Fourmis(idNoeudCourant, idNoeudCourant,  idNoeudArbre)
         #On incrémente l'identifiant des noeuds
         idNoeudArbre =  idNoeudArbre + 1
         #Initialisation du tableau des chemins parcourus
         lesChemins = []
         #==================== EXPLORATION ====================#
         arbre , lesChemins,  idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
+
+        
         expressionLitterale = parcourir(0, arbre)
 
         fitness = rawFitness(dataSet, expressionLitterale, 'x')
@@ -108,17 +134,14 @@ for generation in range(0, nbGeneration):
         #fitness
     #============================
     #decrire(graphe)
-    '''fourmiGeneratrice = Fourmis(noeudDemarrage, noeudDemarrage,  0)
-    arbre, lesChemins, idNoeudArbre = exploration(fourmiGeneratrice, 1, arbre, labeldict, graphe, lesChemins)
-    nx.draw(arbre, labels=labeldict, with_labels = True)
-    plt.savefig("arbre.png") # save as png'''
+    
     #plt.show() # display
+    
 
-
-    '''  expression = construire(graphe, grapheNodes, noeudDemarrage)
+    expression = construire(graphe, grapheNodes, noeudDemarrage)
     fitness = rawFitness(dataSet, expression, 'x')
     print("\t================================================================================")
-    print("\t SOLUTION "+str(f+1)+" : "+expression+" => "+str(fitness))'''
+    print("\t SOLUTION "+str(f+1)+" : "+expression+" => "+str(fitness))
 
 
 #============================================================================================================================================================================================
