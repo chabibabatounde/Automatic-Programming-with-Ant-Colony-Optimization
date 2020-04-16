@@ -21,9 +21,9 @@ with open("Dataset/eq1.json", 'r') as f:
 
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  10
-nbGeneration = 1
-evaporation = 0.01
+nbFourmis =  100
+nbGeneration = 10
+alpha = 0.1
 fonctionSet = [Addition(), Multiplication(), Soustration()]
 terminalSet = [Variable('x'),Constante(2),Constante(4)]
 
@@ -35,9 +35,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 9
-nbFonction = 6
-
+nbTerminal = 20
+nbFonction = 10
 
 
 #On génére le graphe de maniere unique
@@ -54,7 +53,6 @@ for i in range(0, nbTerminal):
     labeldict[idNode] = nodeToAdd.valeur
     idNode = idNode +1
 
-
 #Génération des arretes
 for currentNodeId in range(len(grapheNodes)):
     currentNode = grapheNodes[currentNodeId]
@@ -66,7 +64,7 @@ for currentNodeId in range(len(grapheNodes)):
         voisinId =  random.randint(0, len(grapheNodes)-1)
         while voisinId == currentNodeId :
             voisinId =  random.randint(0, len(grapheNodes)-1)
-        edge = (currentNodeId, voisinId, {'pheromone' : 0.5})
+        edge = (currentNodeId, voisinId, {'pheromone' : 0.05})
         grapheEdges.append(edge)
 
 graphe.add_edges_from(grapheEdges)
@@ -76,72 +74,48 @@ plt.clf()
 
 
 #=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
-#Démarrage de l'algorithme
+#Déterminer un point de démarrage
+noeudDemarrage = random.randint(0, len(grapheNodes)-1)
+noeudCourant = grapheNodes[noeudDemarrage]
+while not (isFunction(noeudCourant)):
+    noeudDemarrage = random.randint(0, len(grapheNodes)-1)
+    noeudCourant = grapheNodes[noeudDemarrage]
+    #noeudDemarrage = idNoeudCourant
+
 #Pour chaque génération
 for generation in range(0, nbGeneration):
     print("Génération "+str(generation+1))
-    
+    localGraphe = graphe
+    solutionsLocales = []
     #Pour chaque fourmi alors
-    #Déterminer un point de démarrage
-    idNoeudCourant = random.randint(0, len(grapheNodes)-1)
-    noeudCourant = grapheNodes[idNoeudCourant]
-    while not (isFunction(noeudCourant)):
-        idNoeudCourant = random.randint(0, len(grapheNodes)-1)
-        noeudCourant = grapheNodes[idNoeudCourant]
-    noeudDemarrage = idNoeudCourant
-    
     for f in range(0, nbFourmis):
+        #Choix du noeud suivant
+        idSuivant = noeudSuivant(noeudDemarrage, localGraphe)
         #Initialiser l'arbre du programme
         labeldict = {}
         arbre = nx.Graph()
-        
-        #arbre = nx.DiGraph()
-        #Initialiser le tableau des noeuds et des arretes
-        arbreNodes = []
-        arbreEdges = []
         #Initialisation de l'identifiant des noeuds
         idNoeudArbre = 0
         #Ajout du de départ dans la liste des noeuds
         arbre.add_node(idNoeudArbre, value=noeudCourant)
         labeldict[idNoeudArbre] = noeudCourant.valeur
         #Création d'une fourmi avec les données
-        fourmi = Fourmis(idNoeudCourant, idNoeudCourant,  idNoeudArbre)
+        fourmi = Fourmis(noeudDemarrage, noeudDemarrage,  idNoeudArbre)
         #On incrémente l'identifiant des noeuds
         idNoeudArbre =  idNoeudArbre + 1
         #Initialisation du tableau des chemins parcourus
         lesChemins = []
-        #==================== EXPLORATION ====================#
-        arbre , lesChemins,  idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
-
-        
+        arbre , lesChemins,  idNoeudArbre = exploration(fourmi, idNoeudArbre, arbre, labeldict, localGraphe, lesChemins)
         expressionLitterale = parcourir(0, arbre)
-
         fitness = rawFitness(dataSet, expressionLitterale, 'x')
-        alpha = adjustedFitness(fitness)
-        print("\t Fourmi "+str(f+1)+" : "+expressionLitterale+" => "+str(fitness)+" => "+str(alpha))
-        #Mise à jour des phéromones
-            #Incrémentation
-        for chemin in lesChemins:
-            graphe[chemin[0]][chemin[1]]['pheromone'] = graphe[chemin[0]][chemin[1]]['pheromone'] + alpha
-        
-        #evaporation
-        for lignes in graphe.edges():
-            graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] - evaporation
-    
-        #   RESULTAT   #
-    #============================
-        #expressionLitterale
-        #fitness
-    #============================
-    #decrire(graphe)
-    
-    #plt.show() # display
-    
+        #Mise A jour Locale des phéromone
+        localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
+        solutionsLocales.append({"expression":expressionLitterale, "fitness":fitness})
 
-    expression = construire(graphe, grapheNodes, noeudDemarrage)
-    fitness = rawFitness(dataSet, expression, 'x')
-    print("\t================================================================================")
-    print("\t SOLUTION "+str(f+1)+" : "+expression+" => "+str(fitness))
+    print("\tMeilleure solution : "+expressionLitterale+" => "+str(fitness))
+    #Mise A jour globale des phéromone
+    graphe =  miseAJour(graphe, lesChemins, fitness, alpha)
+
 
 
 #============================================================================================================================================================================================
