@@ -32,7 +32,7 @@ print(eval(chaine.replace("x", str(0))))ss
 '''
 
 #Charger les données sources
-nomFichier = "eq2"
+nomFichier = "eq1"
 
 with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
@@ -40,22 +40,12 @@ with open("Dataset/"+nomFichier+".json", 'r') as f:
 
 
 
-x = []
-y = []
-for ligne in dataSet:
-    x.append(ligne['in'])
-    y.append(ligne['out'])
-plt.plot(x, y, label="Parcours de base")
-plt.legend()
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-base.png", dpi=500)
-plt.clf()
-
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  1000
+nbFourmis =  100
 nbGeneration = 100
 alpha = 0.1
-fonctionSet = [Addition(), Multiplication(),Cos(), Sin(),Soustration()]
+fonctionSet = [Addition(), Multiplication(),Soustration()]
 terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
 
 #On créé le graph
@@ -111,6 +101,7 @@ while not (isFunction(noeudCourant)):
 
 #Pour chaque génération
 solutionsGenerales = []
+metriqueEvolutions = []
 for generation in range(0, nbGeneration):
     print("Génération "+str(generation+1))
     localGraphe = graphe
@@ -141,14 +132,31 @@ for generation in range(0, nbGeneration):
         localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
 
     solutionsLocales =  sorted(solutionsLocales, key=itemgetter('fitness'))
-    for i in range(0, 4):
+    for i in range(0, 10):
         solution  = solutionsLocales[i]
-        solutionsGenerales.append(solution)
+        
         #Mise A jour globale des phéromone apres chaque génération (4 meilleurs de la génération)
         graphe =  miseAJour(graphe, solution['lesChemins'], solution['fitness'], alpha)
     print("\t Meilleure solution : "+ solutionsLocales[0]['expression'] + " [Fitness = "+str(solutionsLocales[0]['fitness']))+"]"
+    solutionsGenerales.append(solutionsLocales[0])
     
 #====================   Affichage de la solution   =========================#
+
+generation = 0
+performx = []
+performy = []
+for ln in solutionsGenerales:
+    generation = generation +1
+    performx.append(ln['fitness'])
+    performy.append(generation)
+
+plt.plot(performy, performx, label="Evolution de fitness suivant les generation de fourmis")
+plt.legend()
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
+plt.clf()
+
+
+
 
 
 solutionsGenerales =  sorted(solutionsGenerales, key=itemgetter('fitness'))
@@ -186,6 +194,7 @@ y1 = []
 x2 = []
 y2 = []
 
+
 for ligne in dataSet:
     chaine =  logData["minExpression"]
     chaine2 =  logData["maxExpression"]
@@ -202,9 +211,16 @@ for ligne in dataSet:
 
 
 plt.plot(x, y, label="Dataset")
-plt.plot(x1, y1, label="First solution")
-#plt.plot(x2, y2, label="Last solution")
-
 plt.legend()
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-comparaison.png", dpi=500)
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".dataset.png", dpi=500)
+
+plt.plot(x1, y1, label="Solution")
+plt.legend()
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".solution.png", dpi=500)
+'''
+plt.plot(x2, y2, label="Last solution")
+plt.legend()
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".results.png", dpi=500)
+'''
 plt.show()
+print(len(solutionsGenerales))
