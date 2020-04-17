@@ -1,38 +1,61 @@
 # coding: utf-8
+import sys
 import random
+import json
+from math import *
+import datetime
+
 import networkx as nx
 import matplotlib.pyplot as plt
+import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
-import datetime
-import json
+
 
 from Fonctions.Addition import *
 from Fonctions.Multiplication import *
 from Fonctions.Soustration import *
+from Fonctions.Cos import *
+from Fonctions.Sin import *
+
 from Terminaux.Constante import *
 from Terminaux.Variable import *
 
 from Fourmis import *
 from exploration import *
-from math import *
-import json
-import sys
 #sys.setrecursionlimit(900000000)
+
+laDate = datetime.datetime.now()
+
 '''
-chaine =  "((x-(((2+2)-(x+(x+x)))+x))+((x*x)+(x*x)))"
-print(eval(chaine.replace("x", str(0))))
+chaine =  "cos(x-2)"
+print(eval(chaine.replace("x", str(0))))ss
 '''
+
 #Charger les données sources
-with open("Dataset/eq1.json", 'r') as f:
+nomFichier = "eq2"
+
+with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
     dataSet = ressource["dataSet"]
-    
+
+
+
+x = []
+y = []
+for ligne in dataSet:
+    x.append(ligne['in'])
+    y.append(ligne['out'])
+plt.plot(x, y, label="Parcours de base")
+plt.legend()
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-base.png", dpi=500)
+plt.clf()
+
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  10
-nbGeneration = 10
+nbFourmis =  1000
+nbGeneration = 100
 alpha = 0.1
-fonctionSet = [Addition(), Multiplication(), Soustration()]
+fonctionSet = [Addition(), Multiplication(),Cos(), Sin(),Soustration()]
 terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
 
 #On créé le graph
@@ -42,9 +65,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 3
-nbFonction = 7
-
+nbTerminal = 6
+nbFonction = 14
 
 #On génére le graphe de maniere unique
 for i in range(0, nbFonction):
@@ -61,7 +83,6 @@ for i in range(0, nbTerminal):
     idNode = idNode +1
 
 #Génération des arretes
-
 for currentNodeId in range(len(grapheNodes)):
     currentNode = grapheNodes[currentNodeId]
     voisins =  list(graphe.neighbors(currentNodeId))
@@ -75,7 +96,7 @@ for currentNodeId in range(len(grapheNodes)):
         graphe.add_edge(currentNodeId, voisinId, pheromone= 0.05)
 
 nx.draw(graphe, labels=labeldict, with_labels = True)
-plt.savefig("graphe.png")
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe.png")
 plt.clf()
 
 #=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
@@ -136,7 +157,6 @@ print("SOLUTION : "+ solutionsGenerales[0]['expression'] + " [Fitness = "+str(so
 
 
 #====================   Journalisation   =========================#
-laDate = datetime.datetime.now()
 logData = {}
 logData["alpha"] = alpha
 if(solutionsGenerales[0]['fitness']==0 or solutionsGenerales[0]['fitness']==1):
@@ -153,6 +173,38 @@ logData["minFitness"] = solutionsGenerales[0]['fitness']
 logData["minExpression"] = solutionsGenerales[0]['expression']
 logData["maxFitness"] = solutionsGenerales[len(solutionsGenerales)-1]['fitness']
 logData["maxExpression"] = solutionsGenerales[len(solutionsGenerales)-1]['expression']
-f = open("Sortie/"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
+f = open("Sortie/log/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
 f.write(json.dumps(logData))
 f.close()
+
+x = []
+y = []
+
+x1 = []
+y1 = []
+
+x2 = []
+y2 = []
+
+for ligne in dataSet:
+    chaine =  logData["minExpression"]
+    chaine2 =  logData["maxExpression"]
+
+    x.append(ligne['in'])
+    y.append(ligne['out'])
+
+
+    x1.append(ligne['in'])
+    y1.append(eval(chaine.replace("x", str(ligne['in']))))
+
+    x2.append(ligne['in'])
+    y2.append(eval(chaine2.replace("x", str(ligne['in']))))
+
+
+plt.plot(x, y, label="Dataset")
+plt.plot(x1, y1, label="First solution")
+#plt.plot(x2, y2, label="Last solution")
+
+plt.legend()
+plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-comparaison.png", dpi=500)
+plt.show()
