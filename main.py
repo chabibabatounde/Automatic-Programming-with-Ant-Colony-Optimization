@@ -4,13 +4,14 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import datetime
-
+import json
 
 from Fonctions.Addition import *
 from Fonctions.Multiplication import *
 from Fonctions.Soustration import *
 from Terminaux.Constante import *
 from Terminaux.Variable import *
+
 from Fourmis import *
 from exploration import *
 from math import *
@@ -23,12 +24,13 @@ print(eval(chaine.replace("x", str(0))))
 '''
 #Charger les données sources
 with open("Dataset/eq1.json", 'r') as f:
-    dataSet = json.load(f)
-
+    ressource = json.load(f)
+    dataSet = ressource["dataSet"]
+    
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  1000
-nbGeneration = 100
+nbFourmis =  10
+nbGeneration = 10
 alpha = 0.1
 fonctionSet = [Addition(), Multiplication(), Soustration()]
 terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
@@ -125,6 +127,7 @@ for generation in range(0, nbGeneration):
         graphe =  miseAJour(graphe, solution['lesChemins'], solution['fitness'], alpha)
     print("\t Meilleure solution : "+ solutionsLocales[0]['expression'] + " [Fitness = "+str(solutionsLocales[0]['fitness']))+"]"
     
+#====================   Affichage de la solution   =========================#
 
 
 solutionsGenerales =  sorted(solutionsGenerales, key=itemgetter('fitness'))
@@ -132,15 +135,24 @@ print("=========================================================================
 print("SOLUTION : "+ solutionsGenerales[0]['expression'] + " [Fitness = "+str(solutionsGenerales[0]['fitness'])+"]")
 
 
+#====================   Journalisation   =========================#
 laDate = datetime.datetime.now()
-logDate = None
-logData["date"] =  str(laDate.hour) + ":" +str(laDate.minute) + ":" +str(laDate.second)+" "+str(laDate.day) + "-" +str(laDate.month) + "-" +str(laDate.year)
-
-
-
-
-
-
-#============================================================================================================================================================================================
-#============================================================================================================================================================================================
-#============================================================================================================================================================================================eval
+logData = {}
+logData["alpha"] = alpha
+if(solutionsGenerales[0]['fitness']==0 or solutionsGenerales[0]['fitness']==1):
+    logData["trouve"] = 1
+else:
+    logData["trouve"] = 0
+logData["equation"] = ressource["equation"]
+logData["date"] =  str(laDate.hour) + ":" +str(laDate.minute) + ":" +str(laDate.second)+" "+str(laDate.year) + "-" +str(laDate.month) + "-" +str(laDate.day)
+logData["nbFonction"] = nbFonction
+logData["nbTerminal"] = nbTerminal
+logData["nbFourmis"] = nbFonction
+logData["nbGeneration"] = nbGeneration
+logData["minFitness"] = solutionsGenerales[0]['fitness']
+logData["minExpression"] = solutionsGenerales[0]['expression']
+logData["maxFitness"] = solutionsGenerales[len(solutionsGenerales)-1]['fitness']
+logData["maxExpression"] = solutionsGenerales[len(solutionsGenerales)-1]['expression']
+f = open("Sortie/"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
+f.write(json.dumps(logData))
+f.close()
