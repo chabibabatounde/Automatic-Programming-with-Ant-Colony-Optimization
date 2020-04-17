@@ -24,6 +24,7 @@ def rawFitness(dataSet, expression,  parametre):
     for ligne in dataSet:
         local = eval(expression.replace(parametre,str(ligne['in'])))
         fitness = fitness + abs(ligne['out'] - local)
+        #print("\t"+str(expression.replace(parametre,str(ligne['in'])))+" = " +str(abs(ligne['out'] - local)))
     fitness =  fitness / len(dataSet)
     return fitness
 
@@ -51,7 +52,7 @@ def noeudSuivant(idNoeud, graphe):
         idSuivant = roulette[choix]
     return idSuivant
 
-def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
+def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins, maxFunction):
     if isFunction((graphe.nodes[fourmi.noeudCourant]['value'])):
         #Si le noeud Courant de la fourmis n'est pas une fonction alors  =>
         idNoeudCourant =  fourmi.noeudCourant
@@ -61,11 +62,17 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
         for j in range(0, nbParams):
             #Récupérer le noeud suivant(voisin) tant que ce n'est pas le noeud précédent
             idSuivant = noeudSuivant(idNoeudCourant, graphe)
-
             while idSuivant == fourmi.noeudPrecedent:
                 idSuivant = noeudSuivant(idNoeudCourant, graphe)
-
             suivant  =   graphe.nodes[idSuivant]['value']
+            if(isFunction(suivant)):
+                maxFunction = maxFunction -1
+
+            if(maxFunction <= 0):
+                while idSuivant == fourmi.noeudPrecedent or isFunction(suivant):
+                    idSuivant = noeudSuivant(idNoeudCourant, graphe)
+                    suivant  =   graphe.nodes[idSuivant]['value']
+            
             lesChemins.append((idNoeudCourant, idSuivant))
             #Ajouter le noeud suivant à l'arbre
             arbre.add_node(idNoeudArbre, value=suivant)
@@ -76,10 +83,10 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
             maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
             #On incrémente l'identifiant des noeuds
             idNoeudArbre =  idNoeudArbre + 1
-            arbre, lesChemins,  idNoeudArbre = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins)
+            arbre, lesChemins,  idNoeudArbre, maxFunction = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins, maxFunction)
 
     #Ne rien faire
-    return arbre , lesChemins,  idNoeudArbre
+    return arbre , lesChemins,  idNoeudArbre, maxFunction
 
 
 #Définition des fonctions necessaires à l'algorithm
