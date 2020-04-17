@@ -12,7 +12,7 @@ learningRate = 0.95
 def miseAJour(graphe, lesChemins, fitness, alpha):
     # Renforcement
     for lignes in lesChemins:
-        graphe[lignes[0]][lignes[1]]['pheromone'] = (graphe[lignes[0]][lignes[1]]['pheromone']) + (alpha /fitness)
+        graphe[lignes[0]][lignes[1]]['pheromone'] = (graphe[lignes[0]][lignes[1]]['pheromone']) + (alpha /(fitness+1))
     # Evaporation
     for lignes in graphe.edges():
         graphe[lignes[0]][lignes[1]]['pheromone'] = (1 - alpha) * graphe[lignes[0]][lignes[1]]['pheromone']
@@ -23,9 +23,8 @@ def rawFitness(dataSet, expression,  parametre):
     fitness =  0
     for ligne in dataSet:
         local = eval(expression.replace(parametre,str(ligne['in'])))
-        fitness = fitness + abs(ligne['out'] - local)
+        fitness = fitness + abs(local - ligne['out'])
         #print("\t"+str(expression.replace(parametre,str(ligne['in'])))+" = " +str(abs(ligne['out'] - local)))
-    fitness =  fitness / len(dataSet)
     return fitness
 
 def noeudSuivant(idNoeud, graphe):

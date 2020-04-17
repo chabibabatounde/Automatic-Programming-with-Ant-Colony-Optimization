@@ -2,6 +2,10 @@
 import random
 import networkx as nx
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import datetime
+
+
 from Fonctions.Addition import *
 from Fonctions.Multiplication import *
 from Fonctions.Soustration import *
@@ -13,19 +17,21 @@ from math import *
 import json
 import sys
 #sys.setrecursionlimit(900000000)
-
-
+'''
+chaine =  "((x-(((2+2)-(x+(x+x)))+x))+((x*x)+(x*x)))"
+print(eval(chaine.replace("x", str(0))))
+'''
 #Charger les données sources
 with open("Dataset/eq1.json", 'r') as f:
     dataSet = json.load(f)
 
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  100
+nbFourmis =  1000
 nbGeneration = 100
 alpha = 0.1
 fonctionSet = [Addition(), Multiplication(), Soustration()]
-terminalSet = [Constante('x'),Constante(2),Constante(3),Constante(4)]
+terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
 
 #On créé le graph
 graphe = nx.Graph()
@@ -34,8 +40,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 10
-nbFonction = 100
+nbTerminal = 3
+nbFonction = 7
 
 
 #On génére le graphe de maniere unique
@@ -64,7 +70,6 @@ for currentNodeId in range(len(grapheNodes)):
         voisinId =  random.randint(0, len(grapheNodes)-1)
         while voisinId == currentNodeId :
             voisinId =  random.randint(0, len(grapheNodes)-1)
-        edge = (currentNodeId, voisinId, {'pheromone' : 0.05})
         graphe.add_edge(currentNodeId, voisinId, pheromone= 0.05)
 
 nx.draw(graphe, labels=labeldict, with_labels = True)
@@ -126,6 +131,16 @@ solutionsGenerales =  sorted(solutionsGenerales, key=itemgetter('fitness'))
 print("=========================================================================================================================")
 print("SOLUTION : "+ solutionsGenerales[0]['expression'] + " [Fitness = "+str(solutionsGenerales[0]['fitness'])+"]")
 
+
+laDate = datetime.datetime.now()
+logDate = None
+logData["date"] =  str(laDate.hour) + ":" +str(laDate.minute) + ":" +str(laDate.second)+" "+str(laDate.day) + "-" +str(laDate.month) + "-" +str(laDate.year)
+
+
+
+
+
+
 #============================================================================================================================================================================================
 #============================================================================================================================================================================================
-#============================================================================================================================================================================================
+#============================================================================================================================================================================================eval

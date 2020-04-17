@@ -1,0 +1,14 @@
+[
+    {
+        "date":"2018-04-10 10:05:12",
+        "nbFonction" : 7,
+        "nbTerminaux" : 3,
+        "nbFourmis" :  1000,
+        "nbGeneration" : 100,
+        "alpha" : 0.1,
+        "maxFitness" :  90,
+        "minFitness" : 0,
+        "badSolution" : "(x*x)",
+        "bestSolution" : "(x+x)"
+    }
+]
