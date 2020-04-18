@@ -1,0 +1,1 @@
+{"nbFonction": 7, "nbGeneration": 10, "minExpression": "(((3+(3+((3-(3+3))+((3+(1-3))+3))))+1)-3)", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 7, "maxFitness": 129, "minFitness": 125, "maxExpression": "(((3-(3-(3+(3+((1+(1-(3-3)))-1)))))-1)-3)", "date": "17:33:41 2020-4-18", "alpha": 0.001, "nbTerminal": 3}

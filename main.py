@@ -43,8 +43,8 @@ with open("Dataset/"+nomFichier+".json", 'r') as f:
 
 #Initialisation des parametres de l'algorithme
 nbFourmis =  100
-nbGeneration = 100
-alpha = 0.1
+nbGeneration = 1000
+alpha = 0.0001
 fonctionSet = [Addition(), Multiplication(),Soustration()]
 terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
 
@@ -55,8 +55,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 6
-nbFonction = 14
+nbTerminal = 12
+nbFonction = 28
 
 #On génére le graphe de maniere unique
 for i in range(0, nbFonction):
@@ -132,11 +132,12 @@ for generation in range(0, nbGeneration):
         localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
 
     solutionsLocales =  sorted(solutionsLocales, key=itemgetter('fitness'))
+
     for i in range(0, 10):
         solution  = solutionsLocales[i]
-        
         #Mise A jour globale des phéromone apres chaque génération (4 meilleurs de la génération)
         graphe =  miseAJour(graphe, solution['lesChemins'], solution['fitness'], alpha)
+
     print("\t Meilleure solution : "+ solutionsLocales[0]['expression'] + " [Fitness = "+str(solutionsLocales[0]['fitness']))+"]"
     solutionsGenerales.append(solutionsLocales[0])
     
@@ -153,6 +154,8 @@ for ln in solutionsGenerales:
 plt.plot(performy, performx, label="Evolution de fitness suivant les generation de fourmis")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
+#plt.show()
+
 plt.clf()
 
 
@@ -222,5 +225,3 @@ plt.plot(x2, y2, label="Last solution")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".results.png", dpi=500)
 '''
-plt.show()
-print(len(solutionsGenerales))

@@ -12,10 +12,11 @@ learningRate = 0.95
 def miseAJour(graphe, lesChemins, fitness, alpha):
     # Renforcement
     for lignes in lesChemins:
-        graphe[lignes[0]][lignes[1]]['pheromone'] = (graphe[lignes[0]][lignes[1]]['pheromone']) + (alpha /(fitness+1))
+        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] + (1 / float(fitness+1) )
     # Evaporation
     for lignes in graphe.edges():
-        graphe[lignes[0]][lignes[1]]['pheromone'] = (1 - alpha) * graphe[lignes[0]][lignes[1]]['pheromone']
+        pass
+        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] - alpha
 
     return graphe
 
