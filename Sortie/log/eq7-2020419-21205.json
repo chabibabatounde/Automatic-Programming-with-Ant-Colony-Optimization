@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(cos((((sin((cos((sin(3))))))*(cos((3-3))))-((sin(3))*t))))", "equation": "exp(t)", "trouve": 0, "nbFourmis": 14, "maxFitness": 12811.959925014817, "minFitness": 12811.369162060315, "maxExpression": "(cos((sin(3))))", "date": "21:20:5 2020-4-19", "alpha": 0.15232471710221288, "nbTerminal": 6}

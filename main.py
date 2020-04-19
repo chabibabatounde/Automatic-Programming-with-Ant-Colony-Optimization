@@ -14,6 +14,7 @@ from Fonctions.Addition import *
 from Fonctions.Multiplication import *
 from Fonctions.Soustration import *
 from Fonctions.Cos import *
+from Fonctions.Expo import *
 from Fonctions.Sin import *
 
 from Terminaux.Constante import *
@@ -27,7 +28,7 @@ laDate = datetime.datetime.now()
 
 
 #Charger les données sources
-nomFichier = "eq6"
+nomFichier = "eq9"
 
 with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
@@ -39,8 +40,8 @@ nbFourmis =  100
 nbGeneration = 1000
 alpha = random.uniform(0,0.25)
 #fonctionSet = [Addition(), Multiplication(),Soustration()]
-fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
-terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('x')]
+fonctionSet = [Expo(), Addition(), Multiplication(), Sin(), Cos(),Soustration()]
+terminalSet = [Constante('t'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('t')]
 
 #On créé le graph
 graphe = nx.Graph()
@@ -122,7 +123,7 @@ for generation in range(0, nbGeneration):
         lesChemins = []
         arbre , lesChemins,  idNoeudArbre, maxFn = exploration(fourmi, idNoeudArbre, arbre, labeldict, localGraphe, lesChemins, 10)
         expressionLitterale = parcourir(0, arbre)
-        fitness = rawFitness(dataSet, expressionLitterale, 'x')
+        fitness = rawFitness(dataSet, expressionLitterale, 't')
         solutionsLocales.append({"expression":expressionLitterale, "fitness":fitness, "lesChemins":lesChemins})
         #Mise A jour Locale des phéromone
         #localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
@@ -210,10 +211,10 @@ for ligne in dataSet:
 
 
     x1.append(ligne['in'])
-    y1.append(eval(chaine.replace("x", str(ligne['in']))))
+    y1.append(eval(chaine.replace("t", str(ligne['in']))))
 
     x2.append(ligne['in'])
-    y2.append(eval(chaine2.replace("x", str(ligne['in']))))
+    y2.append(eval(chaine2.replace("t", str(ligne['in']))))
 
 
 plt.plot(x, y, label="Dataset")

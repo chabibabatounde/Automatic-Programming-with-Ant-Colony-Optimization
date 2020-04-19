@@ -22,10 +22,13 @@ def miseAJour(graphe, lesChemins, fitness, alpha):
 
 def rawFitness(dataSet, expression,  parametre):
     fitness =  0
-    for ligne in dataSet:
-        local = eval(expression.replace(parametre,str(ligne['in'])))
-        fitness = fitness + abs(local - ligne['out'])
-        #print("\t"+str(expression.replace(parametre,str(ligne['in'])))+" = " +str(abs(ligne['out'] - local)))
+    try:
+        for ligne in dataSet:
+            local = eval(expression.replace(parametre,str(ligne['in'])))
+            fitness = fitness + abs(local - ligne['out'])
+            #print("\t"+str(expression.replace(parametre,str(ligne['in'])))+" = " +str(abs(ligne['out'] - local)))
+    except:
+        fitness = float('inf')
     return (fitness+1)
 
 def noeudSuivant(idNoeud, graphe):

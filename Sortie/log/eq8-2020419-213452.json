@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(exp(((t*t)-2)))", "equation": "exp((t*t)-2)", "trouve": 1, "nbFourmis": 14, "maxFitness": 3.637970967991616e+42, "minFitness": 1.0, "maxExpression": "(exp((sin(((exp(2))-((sin(4))*(exp(4))))))))", "date": "21:34:52 2020-4-19", "alpha": 0.03877420373019663, "nbTerminal": 6}
