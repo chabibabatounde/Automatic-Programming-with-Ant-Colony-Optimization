@@ -1,0 +1,1 @@
+{"nbFonction": 2, "nbGeneration": 1, "minExpression": "(x-x)", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 2, "maxFitness": 138, "minFitness": 138, "maxExpression": "(x-x)", "date": "3:40:37 2020-4-19", "alpha": 0.1, "nbTerminal": 2}

@@ -39,13 +39,12 @@ with open("Dataset/"+nomFichier+".json", 'r') as f:
     dataSet = ressource["dataSet"]
 
 
-
-
 #Initialisation des parametres de l'algorithme
 nbFourmis =  100
 nbGeneration = 1000
-alpha = 0.0001
+alpha = 0.1
 fonctionSet = [Addition(), Multiplication(),Soustration()]
+#fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
 terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
 
 #On créé le graph
@@ -55,8 +54,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 12
-nbFonction = 28
+nbTerminal = 3
+nbFonction = 7
 
 #On génére le graphe de maniere unique
 for i in range(0, nbFonction):
@@ -77,7 +76,7 @@ for currentNodeId in range(len(grapheNodes)):
     currentNode = grapheNodes[currentNodeId]
     voisins =  list(graphe.neighbors(currentNodeId))
     #Pour chaque Noeud, on génère au moins 3 différents arretes et au plus nombreDeNoeud arretes
-    nbArrete = random.randint(3, len(grapheNodes))
+    nbArrete = random.randint(3, len(grapheNodes)/2)
     for j in range(0, nbArrete):
         #On génère un voisin différent du noeud courant
         voisinId =  random.randint(0, len(grapheNodes)-1)
@@ -86,6 +85,7 @@ for currentNodeId in range(len(grapheNodes)):
         graphe.add_edge(currentNodeId, voisinId, pheromone= 0.05)
 
 nx.draw(graphe, labels=labeldict, with_labels = True)
+#edge_labels=nx.draw_networkx_edge_labels(graphe,pos=nx.spring_layout(graphe))
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe.png")
 plt.clf()
 
@@ -129,11 +129,18 @@ for generation in range(0, nbGeneration):
         fitness = rawFitness(dataSet, expressionLitterale, 'x')
         solutionsLocales.append({"expression":expressionLitterale, "fitness":fitness, "lesChemins":lesChemins})
         #Mise A jour Locale des phéromone
-        localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
+        #localGraphe =  miseAJour(localGraphe, lesChemins, fitness, alpha)
+
+    fitnessMoyen =  0
+    for ln in solutionsLocales:
+        fitnessMoyen = fitnessMoyen + ln['fitness']
+
+    metriqueEvolutions.append(float(fitnessMoyen) / float(len(solutionsLocales)))
+
 
     solutionsLocales =  sorted(solutionsLocales, key=itemgetter('fitness'))
 
-    for i in range(0, 10):
+    for i in range(0, 1):
         solution  = solutionsLocales[i]
         #Mise A jour globale des phéromone apres chaque génération (4 meilleurs de la génération)
         graphe =  miseAJour(graphe, solution['lesChemins'], solution['fitness'], alpha)
@@ -146,17 +153,17 @@ for generation in range(0, nbGeneration):
 generation = 0
 performx = []
 performy = []
-for ln in solutionsGenerales:
+for ln in metriqueEvolutions:
     generation = generation +1
-    performx.append(ln['fitness'])
+    performx.append(ln)
     performy.append(generation)
 
-plt.plot(performy, performx, label="Evolution de fitness suivant les generation de fourmis")
+plt.plot(performy, performx, label="Fitness moyen par generation")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
 #plt.show()
-
 plt.clf()
+
 
 
 

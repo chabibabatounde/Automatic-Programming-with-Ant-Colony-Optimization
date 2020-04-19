@@ -1,0 +1,1 @@
+{"nbFonction": 7, "nbGeneration": 1000, "minExpression": "(((x*x)+x)+((x*x)+((x-((1+1)+(1+1)))+x)))", "equation": "2x^2+3x-4", "trouve": 1, "nbFourmis": 7, "maxFitness": 131, "minFitness": 1, "maxExpression": "(1+((1*1)*(1*(x+(1+1)))))", "date": "4:26:6 2020-4-19", "alpha": 0.1, "nbTerminal": 3}

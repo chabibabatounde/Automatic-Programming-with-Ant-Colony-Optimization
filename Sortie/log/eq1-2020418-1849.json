@@ -1,0 +1,1 @@
+{"nbFonction": 28, "nbGeneration": 1000, "minExpression": "((2+x)*(x+x))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 28, "maxFitness": 70, "minFitness": 37, "maxExpression": "(x*x)", "date": "18:4:9 2020-4-18", "alpha": 0.0001, "nbTerminal": 12}

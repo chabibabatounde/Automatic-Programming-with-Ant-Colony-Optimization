@@ -1,0 +1,1 @@
+{"nbFonction": 7, "nbGeneration": 1, "minExpression": "(4-((x*1)+x))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 7, "maxFitness": 136, "minFitness": 136, "maxExpression": "(4-((x*1)+x))", "date": "3:39:31 2020-4-19", "alpha": 0.1, "nbTerminal": 3}

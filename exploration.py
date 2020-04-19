@@ -12,11 +12,11 @@ learningRate = 0.95
 def miseAJour(graphe, lesChemins, fitness, alpha):
     # Renforcement
     for lignes in lesChemins:
-        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] + (1 / float(fitness+1) )
+        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] + (float(1) / float(fitness) )
     # Evaporation
     for lignes in graphe.edges():
-        pass
-        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] - alpha
+        alpha = random.uniform(0,0.25)
+        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] * (1 - alpha)
 
     return graphe
 
@@ -26,17 +26,19 @@ def rawFitness(dataSet, expression,  parametre):
         local = eval(expression.replace(parametre,str(ligne['in'])))
         fitness = fitness + abs(local - ligne['out'])
         #print("\t"+str(expression.replace(parametre,str(ligne['in'])))+" = " +str(abs(ligne['out'] - local)))
-    return fitness
+    return (fitness+1)
 
 def noeudSuivant(idNoeud, graphe):
     qZero = random.uniform(0, 1)
     idSuivant =  idNoeud
+
     if(qZero > learningRate):
         #Choix aléatoire
         voisins = list(graphe.neighbors(idNoeud))
         position  =  random.randint(0, len(voisins)-1)
         idSuivant = voisins[position]
     else:
+        #voisins = list(graphe.neighbors(idNoeud))
         voisins = list(graphe.neighbors(idNoeud))
         total = 0
         roulette =  []
@@ -85,7 +87,7 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins, maxF
             idNoeudArbre =  idNoeudArbre + 1
             arbre, lesChemins,  idNoeudArbre, maxFunction = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins, maxFunction)
 
-    #Ne rien faire
+    #Ne rien fairepheromone
     return arbre , lesChemins,  idNoeudArbre, maxFunction
 
 
