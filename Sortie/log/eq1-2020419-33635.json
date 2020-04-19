@@ -1,1 +1,0 @@
-{"nbFonction": 7, "nbGeneration": 1, "minExpression": "((x+4)+(x+(x*(((x*x)*4)+((x*(x+x))+x)))))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 7, "maxFitness": 1955, "minFitness": 1955, "maxExpression": "((x+4)+(x+(x*(((x*x)*4)+((x*(x+x))+x)))))", "date": "3:36:35 2020-4-19", "alpha": 0.1, "nbTerminal": 3}

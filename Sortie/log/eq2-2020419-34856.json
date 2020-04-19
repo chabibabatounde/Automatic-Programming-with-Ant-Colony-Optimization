@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 100, "minExpression": "(cos((4+((cos((cos((x*(4-(sin(((3-3)+3)))))))))*x))))", "equation": "cos(x-2)", "trouve": 0, "nbFourmis": 14, "maxFitness": 4.9771205767492415, "minFitness": 3.0497312675514148, "maxExpression": "(cos((4+x)))", "date": "3:48:56 2020-4-19", "alpha": 0.1, "nbTerminal": 6}

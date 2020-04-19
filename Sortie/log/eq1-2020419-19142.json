@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((x-4)+((x+x)*(x+1)))", "equation": "2x^2+3x-4", "trouve": 1, "nbFourmis": 14, "maxFitness": 67.93912280250265, "minFitness": 1, "maxExpression": "(4+(((sin(1))+x)*(1+(((5*(cos((x-x))))+x)-4))))", "date": "19:1:42 2020-4-19", "alpha": 0.07807953405189302, "nbTerminal": 6}

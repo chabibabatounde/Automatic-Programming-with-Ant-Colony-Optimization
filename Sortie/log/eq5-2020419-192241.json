@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(((cos(x))-(cos((x+(5+5)))))+(sin((5+(x+(5+5))))))", "equation": "cos(x)+(2*sin(x-4))", "trouve": 0, "nbFourmis": 14, "maxFitness": 26.836622281756377, "minFitness": 1.22837532488059, "maxExpression": "((5-5)+(sin(5)))", "date": "19:22:41 2020-4-19", "alpha": 0.1593702023961213, "nbTerminal": 6}

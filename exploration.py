@@ -8,16 +8,16 @@ import sys
 
 learningRate = 0.95
 
+def isFunction(noeud):
+    return hasattr(noeud, 'nbParams')
 
 def miseAJour(graphe, lesChemins, fitness, alpha):
     # Renforcement
     for lignes in lesChemins:
-        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] + (float(1) / float(fitness) )
+        graphe[lignes[0]][lignes[1]]['p'] = graphe[lignes[0]][lignes[1]]['p'] + (float(1) / float(fitness) )
     # Evaporation
     for lignes in graphe.edges():
-        alpha = random.uniform(0,0.25)
-        graphe[lignes[0]][lignes[1]]['pheromone'] = graphe[lignes[0]][lignes[1]]['pheromone'] * (1 - alpha)
-
+        graphe[lignes[0]][lignes[1]]['p'] = graphe[lignes[0]][lignes[1]]['p'] * (1 - alpha)
     return graphe
 
 def rawFitness(dataSet, expression,  parametre):
@@ -31,7 +31,6 @@ def rawFitness(dataSet, expression,  parametre):
 def noeudSuivant(idNoeud, graphe):
     qZero = random.uniform(0, 1)
     idSuivant =  idNoeud
-
     if(qZero > learningRate):
         #Choix aléatoire
         voisins = list(graphe.neighbors(idNoeud))
@@ -43,10 +42,10 @@ def noeudSuivant(idNoeud, graphe):
         total = 0
         roulette =  []
         for suivant in voisins:
-            total = total + graphe[idNoeud][suivant]['pheromone']
+            total = total + graphe[idNoeud][suivant]['p']
         estqi =  0
         for suivant in voisins:
-            proba = round(graphe[idNoeud][suivant]['pheromone'] * 100 / total)
+            proba = round(graphe[idNoeud][suivant]['p'] * 100 / total)
             estqi = estqi + proba
             for j in range(0, int(proba)):
                 roulette.append(suivant)
@@ -90,83 +89,6 @@ def exploration(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins, maxF
     #Ne rien fairepheromone
     return arbre , lesChemins,  idNoeudArbre, maxFunction
 
-
-#Définition des fonctions necessaires à l'algorithm
-def isFunction(noeud):
-    return hasattr(noeud, 'nbParams')
-
-def choisirNoeud(idNoeudCourant, graphe):
-    voisins = list(graphe.neighbors(idNoeudCourant))
-    position  =  random.randint(0, len(voisins)-1)
-    idSuivant = voisins[position]
-    return idSuivant
-
-
-
-def choisirChemin(idNoeudCourant, precedent, graphe):
-    voisins = list(graphe.neighbors(idNoeudCourant))
-    maxi = 0
-    old = 0
-    for nd in voisins:
-        pheromone = graphe[idNoeudCourant][nd]
-        if (pheromone > old and nd != precedent):
-            old = pheromone
-            maxi = nd
-    return maxi
-
-
-def meilleursNoeud(idNoeudCourant, precedent, graphe, limite):
-    voisins = list(graphe.neighbors(idNoeudCourant))
-    lesNoeud = []
-    for nd in voisins:
-        pheromone = graphe[idNoeudCourant][nd]
-        if (nd != precedent):
-            lesNoeud.append({"pheromone" : pheromone['pheromone'], "idNoeud" :  nd, })
-    
-    lesNoeud =  sorted(lesNoeud, key=itemgetter('pheromone'), reverse=True)
-    return lesNoeud[:limite]
-
-
-def construire(graphe, grapheNodes, noeudDemarrage):
-    labeldict = {}
-    arbre = nx.Graph()
-    idNoeudArbre = 0
-    noeudCourant = grapheNodes[noeudDemarrage]
-    arbre.add_node(idNoeudArbre, value=noeudCourant)
-    labeldict[idNoeudArbre] = noeudCourant.valeur
-    fourmi = Fourmis(noeudDemarrage, noeudDemarrage,  idNoeudArbre)
-    idNoeudArbre =  idNoeudArbre + 1
-    lesChemins = []
-    arbre , lesChemins,  idNoeudArbre = explorationConstrction(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins)
-    nx.draw(arbre, labels=labeldict, with_labels = True)
-    expressionLitterale = parcourir(0, arbre)
-    return expressionLitterale, arbre
-
-
-def explorationConstrction(fourmi, idNoeudArbre, arbre, labeldict, graphe, lesChemins):
-    if isFunction((graphe.nodes[fourmi.noeudCourant]['value'])):
-        #Si le noeud Courant de la fourmis n'est pas une fonction alors  =>
-        idNoeudCourant =  fourmi.noeudCourant
-        noeudCourant =  graphe.nodes[fourmi.noeudCourant]['value']
-        #Récupérer le nombre de parametre
-        nbParams =  noeudCourant.nbParams
-        suivants = meilleursNoeud(idNoeudCourant, fourmi.noeudPrecedent, graphe ,nbParams)
-        for noeud in suivants:
-            idSuivant =  noeud['idNoeud']
-            suivant  =   graphe.nodes[idSuivant]['value']
-            #Ajouter le noeud suivant à l'arbre
-            arbre.add_node(idNoeudArbre, value=suivant)
-            labeldict[idNoeudArbre] = suivant.valeur
-            #Liée le nouveau noeud au noeud Pere de l'arbre
-            arbre.add_edge(fourmi.noeudArbre, idNoeudArbre)
-            #On bascule la fourmi au noeud Suivant
-            maFourmi =  Fourmis(idNoeudCourant,idSuivant, idNoeudArbre)
-            #On incrémente l'identifiant des noeuds
-            idNoeudArbre =  idNoeudArbre + 1
-            arbre, lesChemins,  idNoeudArbre = exploration(maFourmi, idNoeudArbre, arbre,labeldict,graphe, lesChemins)
-    return arbre , lesChemins,  idNoeudArbre
-
-
 def parcourir(idNoeud, arbre, ancetre=None):
     #sys.setrecursionlimit(10)
     #Récupérer le noeud racine
@@ -201,9 +123,3 @@ def parcourir(idNoeud, arbre, ancetre=None):
 def decrire(graphe):
     for ed in graphe.edges():
         print(ed, graphe[ed[0]][ed[1]])
-
-
-
-def adjustedFitness(fitness):
-    alpha = 1 / (1 + fitness)
-    return alpha

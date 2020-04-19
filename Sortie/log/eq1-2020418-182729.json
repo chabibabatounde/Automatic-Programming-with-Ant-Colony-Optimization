@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 5, "minExpression": "(((x-1)*(1+((((3+x)+((1+1)*1))-3)-1)))+3)", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 14, "maxFitness": 132, "minFitness": 66, "maxExpression": "((3+3)+(1*(1*((1+3)+3))))", "date": "18:27:29 2020-4-18", "alpha": 0.1, "nbTerminal": 6}

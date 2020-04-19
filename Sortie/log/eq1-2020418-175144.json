@@ -1,1 +1,0 @@
-{"nbFonction": 7, "nbGeneration": 10, "minExpression": "(((3-(3-(x*(((((4*3)+x)+x)-4)-3))))-4)+4)", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 7, "maxFitness": 156, "minFitness": 54, "maxExpression": "(x+((3-(4+(x+((x*((3-x)+x))*(3-3)))))*4))", "date": "17:51:44 2020-4-18", "alpha": 0.001, "nbTerminal": 3}

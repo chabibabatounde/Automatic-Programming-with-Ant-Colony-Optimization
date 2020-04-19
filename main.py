@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 from mpl_toolkits.mplot3d import Axes3D
 
-
 from Fonctions.Addition import *
 from Fonctions.Multiplication import *
 from Fonctions.Soustration import *
@@ -26,13 +25,9 @@ from exploration import *
 
 laDate = datetime.datetime.now()
 
-'''
-chaine =  "cos(x-2)"
-print(eval(chaine.replace("x", str(0))))ss
-'''
 
 #Charger les données sources
-nomFichier = "eq1"
+nomFichier = "eq6"
 
 with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
@@ -42,10 +37,10 @@ with open("Dataset/"+nomFichier+".json", 'r') as f:
 #Initialisation des parametres de l'algorithme
 nbFourmis =  100
 nbGeneration = 1000
-alpha = 0.1
-fonctionSet = [Addition(), Multiplication(),Soustration()]
-#fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
-terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante('x')]
+alpha = random.uniform(0,0.25)
+#fonctionSet = [Addition(), Multiplication(),Soustration()]
+fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
+terminalSet = [Constante('x'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('x')]
 
 #On créé le graph
 graphe = nx.Graph()
@@ -54,10 +49,10 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 3
-nbFonction = 7
+nbTerminal = 6
+nbFonction = 14
 
-#On génére le graphe de maniere unique
+#On génére le graphe
 for i in range(0, nbFonction):
     nodeToAdd = fonctionSet[random.randint(0, len(fonctionSet) - 1)]
     graphe.add_node(idNode, value=nodeToAdd)
@@ -76,13 +71,13 @@ for currentNodeId in range(len(grapheNodes)):
     currentNode = grapheNodes[currentNodeId]
     voisins =  list(graphe.neighbors(currentNodeId))
     #Pour chaque Noeud, on génère au moins 3 différents arretes et au plus nombreDeNoeud arretes
-    nbArrete = random.randint(3, len(grapheNodes)/2)
+    nbArrete = random.randint(3, len(grapheNodes)-1)
     for j in range(0, nbArrete):
         #On génère un voisin différent du noeud courant
         voisinId =  random.randint(0, len(grapheNodes)-1)
         while voisinId == currentNodeId :
             voisinId =  random.randint(0, len(grapheNodes)-1)
-        graphe.add_edge(currentNodeId, voisinId, pheromone= 0.05)
+        graphe.add_edge(currentNodeId, voisinId, p= 0.05)
 
 nx.draw(graphe, labels=labeldict, with_labels = True)
 #edge_labels=nx.draw_networkx_edge_labels(graphe,pos=nx.spring_layout(graphe))
@@ -102,6 +97,7 @@ while not (isFunction(noeudCourant)):
 #Pour chaque génération
 solutionsGenerales = []
 metriqueEvolutions = []
+decrire(graphe)
 for generation in range(0, nbGeneration):
     print("Génération "+str(generation+1))
     localGraphe = graphe
@@ -140,14 +136,14 @@ for generation in range(0, nbGeneration):
 
     solutionsLocales =  sorted(solutionsLocales, key=itemgetter('fitness'))
 
-    for i in range(0, 1):
+    for i in range(0, 4):
         solution  = solutionsLocales[i]
         #Mise A jour globale des phéromone apres chaque génération (4 meilleurs de la génération)
         graphe =  miseAJour(graphe, solution['lesChemins'], solution['fitness'], alpha)
 
     print("\t Meilleure solution : "+ solutionsLocales[0]['expression'] + " [Fitness = "+str(solutionsLocales[0]['fitness']))+"]"
     solutionsGenerales.append(solutionsLocales[0])
-    
+
 #====================   Affichage de la solution   =========================#
 
 generation = 0
@@ -161,7 +157,7 @@ for ln in metriqueEvolutions:
 plt.plot(performy, performx, label="Fitness moyen par generation")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
-#plt.show()
+plt.show()
 plt.clf()
 
 
@@ -224,9 +220,14 @@ plt.plot(x, y, label="Dataset")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".dataset.png", dpi=500)
 
+
+
 plt.plot(x1, y1, label="Solution")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".solution.png", dpi=500)
+
+
+
 '''
 plt.plot(x2, y2, label="Last solution")
 plt.legend()

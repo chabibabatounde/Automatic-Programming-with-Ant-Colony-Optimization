@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((sin(4))*(sin((x-((((cos((x+x)))-(sin(4)))+4)*4)))))", "equation": "cos(x-2)", "trouve": 0, "nbFourmis": 14, "maxFitness": 8.659204877080299, "minFitness": 4.148886696503112, "maxExpression": "((sin((cos(x))))*((sin(4))*(cos(4))))", "date": "3:51:57 2020-4-19", "alpha": 0.1, "nbTerminal": 6}
