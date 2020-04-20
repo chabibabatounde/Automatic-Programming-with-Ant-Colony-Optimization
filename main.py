@@ -28,7 +28,7 @@ laDate = datetime.datetime.now()
 
 
 #Charger les données sources
-nomFichier = "eq9"
+nomFichier = "eq5"
 
 with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)

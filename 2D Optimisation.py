@@ -28,7 +28,7 @@ laDate = datetime.datetime.now()
 
 
 #Charger les données sources
-nomFichier = "eq9"
+nomFichier = "eq5"
 
 with open("Dataset/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
@@ -39,8 +39,8 @@ with open("Dataset/"+nomFichier+".json", 'r') as f:
 nbFourmis =  100
 nbGeneration = 1000
 alpha = random.uniform(0,0.25)
-#fonctionSet = [Addition(), Multiplication(),Soustration()]
-fonctionSet = [Expo(), Addition(), Multiplication(), Sin(), Cos(),Soustration()]
+#fonctionSet = [Addition(), Multiplication(),Soustration()]Expo(), 
+fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
 terminalSet = [Constante('t'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('t')]
 
 #On créé le graph
@@ -98,7 +98,6 @@ while not (isFunction(noeudCourant)):
 #Pour chaque génération
 solutionsGenerales = []
 metriqueEvolutions = []
-decrire(graphe)
 for generation in range(0, nbGeneration):
     print("Génération "+str(generation+1))
     localGraphe = graphe
@@ -162,14 +161,9 @@ plt.show()
 plt.clf()
 
 
-
-
-
-
 solutionsGenerales =  sorted(solutionsGenerales, key=itemgetter('fitness'))
 print("=========================================================================================================================")
 print("SOLUTION : "+ solutionsGenerales[0]['expression'] + " [Fitness = "+str(solutionsGenerales[0]['fitness'])+"]")
-
 
 #====================   Journalisation   =========================#
 logData = {}
@@ -234,3 +228,4 @@ plt.plot(x2, y2, label="Last solution")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".results.png", dpi=500)
 '''
+print("Fichier : "+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second))
