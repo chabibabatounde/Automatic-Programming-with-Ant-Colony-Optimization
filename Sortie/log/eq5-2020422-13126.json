@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(((sin(2))*2)*(2*(sin((sin((sin((1-t)))))))))", "equation": "cos(x)+(2*sin(x-4))", "trouve": 0, "nbFourmis": 14, "maxFitness": 19.03992990005808, "minFitness": 3.0710182897916503, "maxExpression": "((cos(t))*(cos((2*(sin(((2-2)+3)))))))", "date": "13:1:26 2020-4-22", "alpha": 0.03433640787222475, "nbTerminal": 6}

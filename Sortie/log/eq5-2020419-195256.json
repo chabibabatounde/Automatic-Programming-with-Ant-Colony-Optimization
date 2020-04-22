@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((cos(x))-((1*1)*(((sin(x))-(cos(x)))*1)))", "equation": "cos(x)+(2*sin(x-4))", "trouve": 0, "nbFourmis": 14, "maxFitness": 19.161168635245897, "minFitness": 6.458006073255797, "maxExpression": "((cos(x))-1)", "date": "19:52:56 2020-4-19", "alpha": 0.19833848558028985, "nbTerminal": 6}

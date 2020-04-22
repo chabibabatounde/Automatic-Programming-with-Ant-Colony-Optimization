@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((t-(exp((t*(t-(cos((t+(t*t)))))))))*t)", "equation": "(t*t)+exp((t*t)-2) - 6", "trouve": 0, "nbFourmis": 14, "maxFitness": 3.637970967991616e+42, "minFitness": 5.937351447326919e+41, "maxExpression": "(2*2)", "date": "22:7:55 2020-4-19", "alpha": 0.16663021040231116, "nbTerminal": 6}

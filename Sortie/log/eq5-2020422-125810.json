@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(cos((t-(sin((sin(((sin(t))*(cos((t-(sin((sin(5)))))))))))))))", "equation": "cos(x)+(2*sin(x-4))", "trouve": 0, "nbFourmis": 14, "maxFitness": 18.72564866748537, "minFitness": 16.280622078419487, "maxExpression": "(cos(t))", "date": "12:58:10 2020-4-22", "alpha": 0.1421370962195291, "nbTerminal": 6}

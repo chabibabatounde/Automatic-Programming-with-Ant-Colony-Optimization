@@ -28,16 +28,16 @@ laDate = datetime.datetime.now()
 
 
 #Charger les données sources
-nomFichier = "eq5"
+nomFichier = "oursin1"
 
-with open("Dataset/"+nomFichier+".json", 'r') as f:
+with open("Dataset/2D/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
     dataSet = ressource["dataSet"]
 
 
 #Initialisation des parametres de l'algorithme
 nbFourmis =  100
-nbGeneration = 1000
+nbGeneration = 100
 alpha = random.uniform(0,0.25)
 #fonctionSet = [Addition(), Multiplication(),Soustration()]Expo(), 
 fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
@@ -50,8 +50,8 @@ labeldict = {}
 idNode = 0
 
 #on defini le nombre de fonctions et de terminaux qu'on veux dans notre graphe
-nbTerminal = 6
-nbFonction = 14
+nbTerminal = 9
+nbFonction = 21
 
 #On génére le graphe
 for i in range(0, nbFonction):
@@ -82,7 +82,7 @@ for currentNodeId in range(len(grapheNodes)):
 
 nx.draw(graphe, labels=labeldict, with_labels = True)
 #edge_labels=nx.draw_networkx_edge_labels(graphe,pos=nx.spring_layout(graphe))
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe.png")
+plt.savefig("Sortie/img/2D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe.png")
 plt.clf()
 
 #=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
@@ -156,7 +156,7 @@ for ln in metriqueEvolutions:
 
 plt.plot(performy, performx, label="Fitness moyen par generation")
 plt.legend()
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
+plt.savefig("Sortie/img/2D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".evolution.png", dpi=500)
 plt.show()
 plt.clf()
 
@@ -182,7 +182,7 @@ logData["minFitness"] = solutionsGenerales[0]['fitness']
 logData["minExpression"] = solutionsGenerales[0]['expression']
 logData["maxFitness"] = solutionsGenerales[len(solutionsGenerales)-1]['fitness']
 logData["maxExpression"] = solutionsGenerales[len(solutionsGenerales)-1]['expression']
-f = open("Sortie/log/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
+f = open("Sortie/log/2D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
 f.write(json.dumps(logData))
 f.close()
 
@@ -213,13 +213,13 @@ for ligne in dataSet:
 
 plt.plot(x, y, label="Dataset")
 plt.legend()
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".dataset.png", dpi=500)
+plt.savefig("Sortie/img/2D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".dataset.png", dpi=500)
 
 
 
 plt.plot(x1, y1, label="Solution")
 plt.legend()
-plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".solution.png", dpi=500)
+plt.savefig("Sortie/img/2D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".solution.png", dpi=500)
 
 
 
@@ -228,4 +228,5 @@ plt.plot(x2, y2, label="Last solution")
 plt.legend()
 plt.savefig("Sortie/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".results.png", dpi=500)
 '''
+
 print("Fichier : "+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second))

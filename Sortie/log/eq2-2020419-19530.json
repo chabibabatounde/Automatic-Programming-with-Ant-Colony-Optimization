@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((sin(x))*(sin((cos((x*(sin((cos((x*(sin(x)))))))))))))", "equation": "cos(x-2)", "trouve": 0, "nbFourmis": 14, "maxFitness": 6.9511925805418056, "minFitness": 3.5874699025607315, "maxExpression": "((cos((cos(4))))*(cos((cos(x)))))", "date": "19:5:30 2020-4-19", "alpha": 0.049353343090444785, "nbTerminal": 6}

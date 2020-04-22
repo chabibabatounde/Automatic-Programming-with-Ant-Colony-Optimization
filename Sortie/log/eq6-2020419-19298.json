@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(2+(x+(2+(x+x))))", "equation": "(3*x)+4", "trouve": 1, "nbFourmis": 14, "maxFitness": 52, "minFitness": 1, "maxExpression": "(x+((4+4)+x))", "date": "19:29:8 2020-4-19", "alpha": 0.06834940362455846, "nbTerminal": 6}

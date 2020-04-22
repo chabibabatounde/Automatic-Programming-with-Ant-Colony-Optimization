@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((cos(((sin(4))+x)))+(cos((1*(1*(((cos(4))+x)+4))))))", "equation": "cos(x-2)", "trouve": 0, "nbFourmis": 14, "maxFitness": 7.253308256398814, "minFitness": 4.554093661664226, "maxExpression": "((cos((cos(x))))+(sin((cos(4)))))", "date": "19:43:47 2020-4-19", "alpha": 0.01798860735166702, "nbTerminal": 6}

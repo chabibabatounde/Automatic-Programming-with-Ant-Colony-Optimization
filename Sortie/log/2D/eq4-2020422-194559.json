@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(cos((3*(cos((3+((sin((t*(3+3))))+((3*3)+3))))))))", "equation": "(2*x*x*x)-(x*x)-6", "trouve": 0, "nbFourmis": 14, "maxFitness": 5909.0, "minFitness": 5901.498316762871, "maxExpression": "(cos((3-3)))", "date": "19:45:59 2020-4-22", "alpha": 0.0956404894354769, "nbTerminal": 6}

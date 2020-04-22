@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((exp(((t*t)-((5-5)+2))))+((t*t)-5))", "equation": "(t*t)+exp((t*t)-2) - 6", "trouve": 0, "nbFourmis": 14, "maxFitness": 3.637970967991616e+42, "minFitness": 10.0, "maxExpression": "((5-5)+((sin(((1+(exp((5-5))))*t)))+(sin((3*3)))))", "date": "0:15:6 2020-4-20", "alpha": 0.08967146263147305, "nbTerminal": 6}

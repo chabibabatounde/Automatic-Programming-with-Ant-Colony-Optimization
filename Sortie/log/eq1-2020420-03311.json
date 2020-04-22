@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(sin((((cos((cos(t))))+t)-((3+((cos((sin(t))))+3))*3))))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 14, "maxFitness": 133.5395389020697, "minFitness": 129.94677659423297, "maxExpression": "(sin(t))", "date": "0:33:11 2020-4-20", "alpha": 0.23977936182364354, "nbTerminal": 6}

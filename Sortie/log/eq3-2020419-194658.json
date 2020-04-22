@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(((x+x)*(x+(((x+x)*(4+((4*4)+4)))+4)))+4)", "equation": "(x*x*x*x*6)-(8*x)-5", "trouve": 0, "nbFourmis": 14, "maxFitness": 152105.692053771, "minFitness": 116094, "maxExpression": "(((sin(1))+2)+(((sin(2))*4)+(1+x)))", "date": "19:46:58 2020-4-19", "alpha": 0.15345753382410196, "nbTerminal": 6}

@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(sin(((t-t)+(t+5))))", "equation": "exp((t*t)-2)", "trouve": 0, "nbFourmis": 14, "maxFitness": 3.637970967991616e+42, "minFitness": 3.637970967991616e+42, "maxExpression": "(sin((2*t)))", "date": "3:48:19 2020-4-20", "alpha": 0.1292100626518203, "nbTerminal": 6}

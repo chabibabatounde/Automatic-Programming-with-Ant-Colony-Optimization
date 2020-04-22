@@ -28,7 +28,7 @@ laDate = datetime.datetime.now()
 
 
 #Charger les données sources
-nomFichier = "sys5"
+nomFichier = "sys1"
 
 with open("Dataset/3D/"+nomFichier+".json", 'r') as f:
     ressource = json.load(f)
@@ -37,8 +37,8 @@ with open("Dataset/3D/"+nomFichier+".json", 'r') as f:
 
 
 #Initialisation des parametres de l'algorithme
-nbFourmis =  4
-nbGeneration = 4
+nbFourmis =  100
+nbGeneration = 1000
 alpha = random.uniform(0,0.25)
 #fonctionSet = [Addition(), Multiplication(),Soustration()]
 fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
@@ -93,7 +93,7 @@ for parametre in tableauVariablesPosition :
 
     nx.draw(graphe, labels=labeldict, with_labels = True)
     #edge_labels=nx.draw_networkx_edge_labels(graphe,pos=nx.spring_layout(graphe))
-    plt.savefig("Sortie/3D/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe-"+parametre+".png")
+    plt.savefig("Sortie/img/3D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-graphe-"+parametre+".png")
     plt.clf()
 
     #=======================DEMARAGE DE LA ROUTINE DE L'ALGO=====================
@@ -157,7 +157,7 @@ for parametre in tableauVariablesPosition :
     print("=========================================================================================================================")
     print("SOLUTION sur l'axe "+parametre+": "+ solutionsGenerales[0]['expression'] + " [Fitness = "+str(solutionsGenerales[0]['fitness'])+"]")
     print("=========================================================================================================================")
-    solutionGlobale[parametre] =  {'expression':solutionsLocales[0]['expression'], 'fitness':solutionsLocales[0]['expression']} 
+    solutionGlobale[parametre] =  {'expression':solutionsLocales[0]['expression'], 'fitness':solutionsLocales[0]['fitness']} 
 
 plt.clf()
 
@@ -185,16 +185,30 @@ for ligne in dataSet:
     z.append(eval(chaine.replace("t", str(ligne['z']))))
     zz.append(ligne['z'])
 
-
-
 mpl.rcParams['legend.fontsize'] = 10
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-
 
 ax.plot(xx, yy, zz, label="Comportement connu")
 ax.plot(x, y, z, label="Comportement obtenu")
 
 ax.legend()
-plt.savefig("Sortie/3D/img/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-solution.png", dpi=500)
+plt.savefig("Sortie/img/3D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+"-solution.png", dpi=500)
 plt.show()
+
+
+
+
+
+#====================   Journalisation   =========================#
+logData = {}
+logData["alpha"] = alpha
+logData["equations"] = solutionGlobale
+logData["date"] =  str(laDate.hour) + ":" +str(laDate.minute) + ":" +str(laDate.second)+" "+str(laDate.year) + "-" +str(laDate.month) + "-" +str(laDate.day)
+logData["nbFonction"] = nbFonction
+logData["nbTerminal"] = nbTerminal
+logData["nbFourmis"] = nbFonction
+logData["nbGeneration"] = nbGeneration
+f = open("Sortie/log/3D/"+nomFichier+"-"+str(laDate.year) + str(laDate.month) +str(laDate.day) +"-"+str(laDate.hour) +str(laDate.minute) +str(laDate.second)+".json", "a")
+f.write(json.dumps(logData))
+f.close()

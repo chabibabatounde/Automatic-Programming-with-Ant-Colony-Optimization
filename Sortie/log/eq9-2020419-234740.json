@@ -1,1 +1,0 @@
-{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(((t*t)-(exp(((t*t)-5))))*t)", "equation": "(t*t)+exp((t*t)-2) - 6", "trouve": 0, "nbFourmis": 14, "maxFitness": 3.637970967991616e+42, "minFitness": 1.8267318942357966e+42, "maxExpression": "(t*t)", "date": "23:47:40 2020-4-19", "alpha": 0.18806988754296577, "nbTerminal": 6}

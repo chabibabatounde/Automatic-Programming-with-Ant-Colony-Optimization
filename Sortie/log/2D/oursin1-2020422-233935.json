@@ -1,0 +1,1 @@
+{"nbFonction": 21, "nbGeneration": 100, "minExpression": "(4*(4+(1+(sin((((cos(((sin((t-t)))+1)))*t)-t))))))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 21, "maxFitness": 6110, "minFitness": 5989.834924036835, "maxExpression": "(4*4)", "date": "23:39:35 2020-4-22", "alpha": 0.08641220115445661, "nbTerminal": 9}

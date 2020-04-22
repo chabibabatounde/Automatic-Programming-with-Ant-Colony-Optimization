@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "((5+(5+(5*(3+3))))-1)", "equation": "(2*x*x*x)-(x*x)-6", "trouve": 0, "nbFourmis": 14, "maxFitness": 5875.044240981177, "minFitness": 5861, "maxExpression": "((5*5)-(cos((((cos((3+3)))-((3+3)+(5-1)))-2))))", "date": "20:56:30 2020-4-22", "alpha": 0.15205378540495643, "nbTerminal": 6}

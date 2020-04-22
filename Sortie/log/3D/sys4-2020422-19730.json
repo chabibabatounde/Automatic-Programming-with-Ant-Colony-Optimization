@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "nbTerminal": 6, "nbFourmis": 14, "date": "19:7:30 2020-4-22", "alpha": 0.0510358274216475, "equations": {"y": {"expression": "(t*(cos((t-t))))", "fitness": 1.0000000000022813}, "x": {"expression": "((t-t)+(t-(t+(((t-t)+(2-(t+(2-2))))-2))))", "fitness": 1.0000000000034583}, "z": {"expression": "((1*1)*t)", "fitness": 1.0000000000257363}}}

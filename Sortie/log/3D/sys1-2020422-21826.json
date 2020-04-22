@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "nbTerminal": 6, "nbFourmis": 14, "date": "21:8:26 2020-4-22", "alpha": 0.010000538311613238, "equations": {"y": {"expression": "(sin((2*(sin((3+(sin((2*2)))))))))", "fitness": 780.0002073273644}, "x": {"expression": "(1*t)", "fitness": 1.00000000000307}, "z": {"expression": "(1*t)", "fitness": 1}}}

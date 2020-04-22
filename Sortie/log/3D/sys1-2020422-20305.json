@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "nbTerminal": 6, "nbFourmis": 14, "date": "20:30:5 2020-4-22", "alpha": 0.1799973724624444, "equations": {"y": {"expression": "(((5-(cos((sin((sin((5*5))))))))*(5-5))+t)", "fitness": 1.0}, "x": {"expression": "(t+(5-5))", "fitness": 1.00000000000307}, "z": {"expression": "(t-((4-4)*(4-4)))", "fitness": 1}}}

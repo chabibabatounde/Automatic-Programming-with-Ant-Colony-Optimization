@@ -1,0 +1,1 @@
+{"nbFonction": 14, "nbGeneration": 1000, "minExpression": "(((t+t)*(t+(sin((sin((sin((cos(4))))))))))*t)", "equation": "(2*x*x*x)-(x*x)-6", "trouve": 0, "nbFourmis": 14, "maxFitness": 4917.460942940077, "minFitness": 52.312349001831706, "maxExpression": "((cos(4))*(4*(((5-(t*((t-t)+4)))*t)+(sin(t)))))", "date": "20:33:54 2020-4-22", "alpha": 0.1022912450417501, "nbTerminal": 6}
