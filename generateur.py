@@ -14,6 +14,6 @@ for sets in inputList:
     diction.append({"in":sets, "out":eval(chaine.replace("t", str(sets)))})
 sortieChaine['dataSet'] = diction
 
-f = open("Dataset/3D/"+nomFichier+".json", "a+")
+f = open("Dataset/"+nomFichier+".json", "a+")
 f.write(json.dumps(sortieChaine))
 f.close()

@@ -31,6 +31,17 @@ def rawFitness(dataSet, expression,  parametre):
         fitness = float('inf')
     return (fitness+1)
 
+def rawFitness3D(jeuDeDonnees, expression,  parametre):
+    fitness =  0
+    try:
+        for ligne in jeuDeDonnees:
+            local = eval(expression.replace(parametre,str(ligne)))
+            fitness = fitness + abs(local -ligne)
+    except:
+        fitness = float('inf')
+    return (fitness+1)
+
+
 def noeudSuivant(idNoeud, graphe):
     qZero = random.uniform(0, 1)
     idSuivant =  idNoeud
