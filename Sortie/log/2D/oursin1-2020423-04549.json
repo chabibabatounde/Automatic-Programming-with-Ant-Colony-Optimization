@@ -1,0 +1,1 @@
+{"nbFonction": 21, "nbGeneration": 100, "minExpression": "((2+2)*((2+(2-(cos((t-(2-(sin((t*((2-((((2*(2-2))+(2+2))*t)-t))+(2-(sin(t)))))))))))))+2))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 21, "maxFitness": 6946.507868317742, "minFitness": 6021.37813201239, "maxExpression": "((sin(2))*2)", "date": "0:45:49 2020-4-23", "alpha": 0.02413183603946953, "nbTerminal": 9}

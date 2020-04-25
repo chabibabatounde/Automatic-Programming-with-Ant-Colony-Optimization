@@ -41,7 +41,7 @@ nbGeneration = 100
 alpha = random.uniform(0,0.25)
 #fonctionSet = [Addition(), Multiplication(),Soustration()]Expo(), 
 fonctionSet = [Addition(), Multiplication(), Sin(), Cos(),Soustration()]
-terminalSet = [Constante('t'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('t')]
+terminalSet = [Constante('t'),Constante('t'),Constante('t'),Constante('t'),Constante(1),Constante(2),Constante(3),Constante(4),Constante(5),Constante('t')]
 
 #On créé le graph
 graphe = nx.Graph()
@@ -120,7 +120,7 @@ for generation in range(0, nbGeneration):
         idNoeudArbre =  idNoeudArbre + 1
         #Initialisation du tableau des chemins parcourus
         lesChemins = []
-        arbre , lesChemins,  idNoeudArbre, maxFn = exploration(fourmi, idNoeudArbre, arbre, labeldict, localGraphe, lesChemins, 10)
+        arbre , lesChemins,  idNoeudArbre, maxFn = exploration(fourmi, idNoeudArbre, arbre, labeldict, localGraphe, lesChemins, 20)
         expressionLitterale = parcourir(0, arbre)
         fitness = rawFitness(dataSet, expressionLitterale, 't')
         solutionsLocales.append({"expression":expressionLitterale, "fitness":fitness, "lesChemins":lesChemins})

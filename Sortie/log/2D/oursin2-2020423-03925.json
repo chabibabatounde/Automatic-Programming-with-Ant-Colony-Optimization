@@ -1,0 +1,1 @@
+{"nbFonction": 21, "nbGeneration": 100, "minExpression": "(sin(((sin(5))*((5*5)+(cos(2))))))", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 21, "maxFitness": 448927.73186706606, "minFitness": 448872.53864514554, "maxExpression": "(sin(2))", "date": "0:39:25 2020-4-23", "alpha": 0.013747969814192629, "nbTerminal": 9}

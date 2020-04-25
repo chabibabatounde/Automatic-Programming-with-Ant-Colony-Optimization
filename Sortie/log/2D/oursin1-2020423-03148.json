@@ -1,0 +1,1 @@
+{"nbFonction": 21, "nbGeneration": 100, "minExpression": "(((5+4)*2)+4)", "equation": "2x^2+3x-4", "trouve": 0, "nbFourmis": 21, "maxFitness": 118094, "minFitness": 6090, "maxExpression": "((t-(t-(2+(2-((t-t)*(t*(5*4)))))))+t)", "date": "0:31:48 2020-4-23", "alpha": 0.11177846744230677, "nbTerminal": 9}
